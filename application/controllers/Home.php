@@ -71,7 +71,8 @@ class Home extends CI_Controller {
         $transactions = $this->Transaction_model->get_recent_transactions(5);
         $purchases = [];
         foreach ($transactions as $trx) {
-            $first_item = trim(explode(',', (string) $trx->purchased_items)[0] ?? '');
+            $purchase_labels = explode(',', (string) ($trx->purchased_items ?? ''));
+            $first_item = trim((string) ($purchase_labels[0] ?? ''));
             $realm_name = (string) ($trx->realm ?? '');
             $cart_data = json_decode($trx->cart_data ?? '', true);
 

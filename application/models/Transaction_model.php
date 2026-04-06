@@ -38,6 +38,70 @@ class Transaction_model extends CI_Model {
         return str_replace('-', '', $uuid);
     }
 
+    private function _decode_cart_data($raw_cart) {
+        if (!is_string($raw_cart) || trim($raw_cart) === '') {
+            return [];
+        }
+
+        $cart = json_decode($raw_cart, true);
+        return is_array($cart) ? $cart : [];
+    }
+
+    private function _resolve_purchase_items_label($purchased_items, $cart_data) {
+        $purchased_items = trim((string) $purchased_items);
+        if ($purchased_items !== '') {
+            return $purchased_items;
+        }
+
+        $cart = $this->_decode_cart_data((string) $cart_data);
+        $manual_invoice = is_array($cart['manual_invoice'] ?? null) ? $cart['manual_invoice'] : [];
+        $checkout_meta = is_array($cart['checkout_meta'] ?? null) ? $cart['checkout_meta'] : [];
+
+        $manual_description = trim((string) ($manual_invoice['description'] ?? ''));
+        if ($manual_description !== '') {
+            return $manual_description;
+        }
+
+        $checkout_description = trim((string) ($checkout_meta['description'] ?? ''));
+        if ($checkout_description !== '') {
+            return $checkout_description;
+        }
+
+        $labels = [];
+        foreach (($cart['items'] ?? []) as $item) {
+            $item_name = trim((string) ($item['name'] ?? ''));
+            if ($item_name === '') {
+                continue;
+            }
+
+            $quantity = max(1, (int) ($item['quantity'] ?? 1));
+            $labels[] = ($quantity > 1 ? $quantity . 'x ' : '') . $item_name;
+        }
+
+        return !empty($labels) ? implode(', ', $labels) : '';
+    }
+
+    private function _hydrate_purchased_items_from_cart($rows) {
+        foreach ($rows as &$row) {
+            if (is_object($row)) {
+                $row->purchased_items = $this->_resolve_purchase_items_label(
+                    $row->purchased_items ?? '',
+                    $row->cart_data ?? ''
+                );
+                continue;
+            }
+
+            if (is_array($row)) {
+                $row['purchased_items'] = $this->_resolve_purchase_items_label(
+                    $row['purchased_items'] ?? '',
+                    $row['cart_data'] ?? ''
+                );
+            }
+        }
+
+        return $rows;
+    }
+
     private function _apply_player_scope($player_uuid, $player_username = '') {
         $player_uuid = trim((string) $player_uuid);
         $player_username = strtolower(trim((string) $player_username));
@@ -73,7 +137,7 @@ class Transaction_model extends CI_Model {
         }
 
         $this->db->order_by('t.created_at', 'DESC');
-        return $this->db->get()->result();
+        return $this->_hydrate_purchased_items_from_cart($this->db->get()->result());
     }
 
     public function get_recent_transactions($limit = 5) {
@@ -85,7 +149,7 @@ class Transaction_model extends CI_Model {
     
         $this->db->order_by('t.created_at', 'DESC');
         $this->db->limit($limit);
-        return $this->db->get()->result();
+        return $this->_hydrate_purchased_items_from_cart($this->db->get()->result());
     }
 
     public function count_transactions_for_player($player_uuid, $player_username = '') {
@@ -122,7 +186,7 @@ class Transaction_model extends CI_Model {
         $this->_apply_player_scope($player_uuid, $player_username);
         $this->db->order_by('t.created_at', 'DESC');
         $this->db->limit((int) $limit, (int) $offset);
-        return $this->db->get()->result_array();
+        return $this->_hydrate_purchased_items_from_cart($this->db->get()->result_array());
     }
 
     public function get_completed_transactions_for_player($player_uuid, $player_username = '') {
@@ -130,7 +194,7 @@ class Transaction_model extends CI_Model {
         $this->_apply_player_scope($player_uuid, $player_username);
         $this->db->where('t.status', 'completed');
         $this->db->order_by('t.created_at', 'DESC');
-        return $this->db->get()->result_array();
+        return $this->_hydrate_purchased_items_from_cart($this->db->get()->result_array());
     }
 
     public function get_history_transactions_for_player($player_uuid, $player_username = '', $pending_hours = 24, $limit = null, $offset = 0) {
@@ -151,7 +215,7 @@ class Transaction_model extends CI_Model {
             $this->db->limit(max(1, (int) $limit), max(0, (int) $offset));
         }
 
-        return $this->db->get()->result_array();
+        return $this->_hydrate_purchased_items_from_cart($this->db->get()->result_array());
     }
 
     public function get_latest_transaction_for_player($player_uuid, $player_username = '') {

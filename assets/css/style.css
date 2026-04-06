@@ -248,6 +248,33 @@ body.is-loading .loading-overlay {
     align-items: center;
     gap: 15px;
 }
+
+.navbar-profile-link {
+    position: relative;
+    z-index: 3;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navbar-profile-link:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.navbar-profile-link:focus-visible {
+    outline: 2px solid #ffbd00;
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+.navbar-profile-link img,
+.navbar-profile-link span,
+.navbar-profile-link strong {
+    pointer-events: none;
+}
+
 .navbar-profile img {
     width: 48px;
     height: 48px;

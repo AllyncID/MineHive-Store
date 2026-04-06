@@ -31,7 +31,7 @@
 
     <title><?= html_escape($page_title); ?></title>
 
-    <link rel="stylesheet" href="<?= base_url('assets/css/style.css?v=1.0.98'); ?>"> <!-- Versi dinaikkan -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/style.css?v=1.0.99'); ?>"> <!-- Versi dinaikkan -->
     <?php if (!empty($page_stylesheets) && is_array($page_stylesheets)): ?>
         <?php foreach ($page_stylesheets as $stylesheet_url): ?>
             <link rel="stylesheet" href="<?= html_escape((string) $stylesheet_url); ?>">
@@ -92,6 +92,7 @@
                     <?php if ($this->session->userdata('is_logged_in')): ?>
                         <?php
                             $session_username = $this->session->userdata('username');
+                            $transaction_history_url = base_url('transaction');
                 
                             // Cek apakah ini akun Bedrock (diawali dengan titik)
                             if (strpos($session_username, '.') === 0) {
@@ -107,7 +108,7 @@
                             $affiliate_badge = $this->session->userdata('affiliate_badge');
                         ?>
                 
-                        <a href="<?= base_url('transaction'); ?>" class="navbar-profile">
+                        <a href="<?= $transaction_history_url; ?>" class="navbar-profile navbar-profile-link" title="Buka transaction history" aria-label="Buka transaction history">
                             <img src="<?= $avatar_url; ?>" 
                                  alt="Player Avatar" 
                                  onerror="this.onerror=null; this.src='<?= base_url('assets/images/default_avatar.png'); ?>'">

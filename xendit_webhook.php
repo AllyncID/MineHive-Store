@@ -111,15 +111,29 @@ if ($data_to_process) {
         if ($transaction && $transaction['status'] == 'pending') {
             
             write_log("INFO: Memproses transaksi ID " . $transaction_id . '...');
+            $cart = json_decode($transaction['cart_data'], true);
+            if (!is_array($cart)) {
+                $cart = [];
+            }
+            $checkout_meta = is_array($cart['checkout_meta'] ?? null) ? $cart['checkout_meta'] : [];
+            $is_discord_manual_invoice = strtolower(trim((string) ($checkout_meta['source'] ?? ''))) === 'discord_bot_invoice';
+            if ($is_discord_manual_invoice) {
+                write_log("INFO: Invoice manual Discord/Alice terdeteksi. Flow checkout store tertentu akan dilewati.");
+            }
             
             // [PERBAIKAN] Ambil UUID pembeli DULU
             $pembeli_uuid = $transaction['player_uuid']; 
             
             // [PERBAIKAN] Cek status pembelian pertama SEBELUM update status
-            write_log("BONUS: Memeriksa bonus pembelian pertama (sebelum update status)...");
-            $transaction_count = $CI->Transaction_model->get_completed_transaction_count($pembeli_uuid);
-            $is_first_time_buyer = ($transaction_count == 0); // 0 = ini yg pertama
-            write_log("BONUS: Status pembeli pertama: " . ($is_first_time_buyer ? 'YA' : 'TIDAK') . " (Count: $transaction_count)");
+            if ($is_discord_manual_invoice || trim((string) $pembeli_uuid) === '') {
+                $is_first_time_buyer = false;
+                write_log("BONUS: Pengecekan pembeli pertama dilewati untuk invoice manual Discord.");
+            } else {
+                write_log("BONUS: Memeriksa bonus pembelian pertama (sebelum update status)...");
+                $transaction_count = $CI->Transaction_model->get_completed_transaction_count($pembeli_uuid);
+                $is_first_time_buyer = ($transaction_count == 0); // 0 = ini yg pertama
+                write_log("BONUS: Status pembeli pertama: " . ($is_first_time_buyer ? 'YA' : 'TIDAK') . " (Count: $transaction_count)");
+            }
 
 
             $CI->db->trans_start();
@@ -130,7 +144,6 @@ if ($data_to_process) {
             $CI->Transaction_model->update_transaction_status($transaction_id, 'completed', null);
             
             // B. Ambil data dari DB
-            $cart = json_decode($transaction['cart_data'], true);
             $penerima_username = $transaction['gift_recipient_username'] ?? $transaction['player_username'];
             $pembeli_username = $transaction['player_username'];
             // [MODIFIKASI] Ambil UUID pembeli untuk cek bonus (Sudah dipindah ke atas)
@@ -144,15 +157,18 @@ if ($data_to_process) {
             $has_currency_purchase = false;
             $has_bucks_kaget_purchase = false;
             $clean_grand_total = (int) str_replace([".", ","], "", ($data_to_process['amount'] ?? 0));
-            foreach ($cart['items'] as $item) {
-                $product = $CI->Store_model->get_product_by_id($item['id']);
-                if ($product) {
-                    $is_bucks_kaget = $CI->Store_model->is_bucks_kaget_product($product);
-                    if ($is_bucks_kaget) {
-                        $has_bucks_kaget_purchase = true;
-                        write_log(" > INFO: Item Bucks Kaget terdeteksi. Pembuatan link akan diproses setelah pembayaran tervalidasi.");
-                        continue;
-                    }
+            if ($is_discord_manual_invoice) {
+                write_log("PROSES: Invoice manual Discord tidak membutuhkan command Pterodactyl atau bonus item store.");
+            } else {
+                foreach (($cart['items'] ?? []) as $item) {
+                    $product = $CI->Store_model->get_product_by_id($item['id']);
+                    if ($product) {
+                        $is_bucks_kaget = $CI->Store_model->is_bucks_kaget_product($product);
+                        if ($is_bucks_kaget) {
+                            $has_bucks_kaget_purchase = true;
+                            write_log(" > INFO: Item Bucks Kaget terdeteksi. Pembuatan link akan diproses setelah pembayaran tervalidasi.");
+                            continue;
+                        }
 
                     // Deteksi currency: command produk currency selalu dieksekusi di Proxy (global)
                     $product_type = strtolower(trim($product['product_type'] ?? ''));
@@ -221,9 +237,8 @@ if ($data_to_process) {
                                 }
                             }
                         }
+                    }
                 }
-            }
-
             // [BARU] Khusus pembelian currency: eksekusi `donations add <grand_total>` di semua realm donation
             if ($all_commands_success && $has_currency_purchase) {
                 // Catatan: donations add ini bersifat NON-BLOCKING (tidak boleh menggagalkan proses utama),
@@ -255,16 +270,31 @@ if ($data_to_process) {
                 if (!$bucks_kaget_result['success']) {
                     write_log("ERROR: Gagal membuat campaign Bucks Kaget -> " . ($bucks_kaget_result['message'] ?? 'Unknown error'));
                     $all_commands_success = false;
-                } else {
-                    $cart = $bucks_kaget_result['cart'];
-                    write_log("PROSES: Campaign Bucks Kaget berhasil dibuat. URL -> " . ($bucks_kaget_result['result']['url'] ?? '-'));
+                    } else {
+                        $cart = $bucks_kaget_result['cart'];
+                        write_log("PROSES: Campaign Bucks Kaget berhasil dibuat. URL -> " . ($bucks_kaget_result['result']['url'] ?? '-'));
+                    }
                 }
             }
             write_log("PROSES: Eksekusi Pterodactyl selesai. Status sukses: " . ($all_commands_success ? 'Ya' : 'Tidak'));
             
             // D. Proses lain jika Pterodactyl sukses
             if($all_commands_success) {
-                
+                if ($is_discord_manual_invoice) {
+                    write_log("PROSES: Invoice manual Discord tervalidasi. Lewati bonus, afiliasi, promo, dan hadiah store.");
+                    $CI->Transaction_model->update_transaction_status($transaction_id, 'completed', 0);
+                    $invoice_id = $data_to_process['external_id'] ?? 'N/A';
+                    $discord_ok = send_admin_to_discord_webhook(
+                        $CI,
+                        $cart,
+                        $pembeli_username,
+                        ($transaction['is_gift'] ? $penerima_username : null),
+                        $invoice_id,
+                        false
+                    );
+                    write_log("PROSES: Notifikasi Discord invoice manual " . ($discord_ok ? 'berhasil dikirim.' : 'GAGAL dikirim.'));
+                } else {
+
                 // [MODIFIKASI] Cek Bonus Pembelian Pertama
                 // [PERBAIKAN] Variabel $is_first_time_buyer sudah di-set di luar blok ini
                 write_log("BONUS: Mengecek variabel \$is_first_time_buyer...");
@@ -488,6 +518,7 @@ if ($data_to_process) {
                 // =======================================================
                 // === AKHIR DARI LOGIKA BONUS TOP UP ===
                 // =======================================================
+                }
 
             } else {
                 write_log("ERROR: Eksekusi Pterodactyl GAGAL untuk transaksi ID " . $transaction_id);

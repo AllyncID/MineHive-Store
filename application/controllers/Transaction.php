@@ -4,11 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Transaction extends CI_Controller {
 
     protected $allow_public_preview = false;
+    protected $manual_invoice_auto_login_redirect_url = '';
 
     public function __construct() {
         parent::__construct();
         $this->load->library('session');
         $this->load->model('Transaction_model');
+        $this->config->load('xendit', TRUE);
+
+        $this->_try_manual_invoice_auto_login();
 
         $this->allow_public_preview = !$this->session->userdata('is_logged_in') && $this->_is_social_preview_request();
 
@@ -70,6 +74,120 @@ class Transaction extends CI_Controller {
         $this->load->view('templates/header', $data);
         $this->load->view('transaction/index_view', $data);
         $this->load->view('templates/footer');
+    }
+
+    private function _is_manual_invoice_transaction(array $transaction, array $cart) {
+        $checkout_meta = is_array($cart['checkout_meta'] ?? null) ? $cart['checkout_meta'] : [];
+        return strtolower(trim((string) ($checkout_meta['source'] ?? ''))) === 'discord_bot_invoice';
+    }
+
+    private function _build_manual_invoice_auto_login_token(array $transaction, array $cart) {
+        $secret = trim((string) $this->config->item('xendit_api_key', 'xendit'));
+        if ($secret === '') {
+            return '';
+        }
+
+        $checkout_meta = is_array($cart['checkout_meta'] ?? null) ? $cart['checkout_meta'] : [];
+        $payload = implode('|', [
+            'manual-invoice-login',
+            (int) ($transaction['id'] ?? 0),
+            trim((string) ($transaction['player_uuid'] ?? '')),
+            trim((string) ($transaction['player_username'] ?? '')),
+            trim((string) ($checkout_meta['external_id'] ?? ''))
+        ]);
+
+        return hash_hmac('sha256', $payload, $secret);
+    }
+
+    private function _build_clean_transaction_url_without_login_token() {
+        $query_params = $this->input->get(NULL, TRUE);
+        if (!is_array($query_params)) {
+            $query_params = [];
+        }
+
+        unset($query_params['invoice_login']);
+        $query_string = http_build_query($query_params);
+
+        return $query_string !== ''
+            ? base_url('transaction?' . $query_string)
+            : base_url('transaction');
+    }
+
+    private function _switch_session_to_transaction_player(array $transaction) {
+        $player_uuid = trim((string) ($transaction['player_uuid'] ?? ''));
+        $player_username = trim((string) ($transaction['player_username'] ?? ''));
+        if ($player_uuid === '' || $player_username === '') {
+            return false;
+        }
+
+        $affiliate_badge = null;
+        $this->load->model('Affiliate_model');
+        $affiliate_data = $this->Affiliate_model->get_affiliate_by_username($player_username);
+        if ($affiliate_data) {
+            $affiliate_badge = $this->Affiliate_model->get_badge_info(
+                $affiliate_data->total_sales,
+                $affiliate_data->total_transactions
+            )['badge'];
+        }
+
+        $this->session->unset_userdata([
+            'uuid',
+            'username',
+            'platform',
+            'is_logged_in',
+            'affiliate_badge',
+            'cart',
+            'last_checkout_transaction_id'
+        ]);
+
+        if (method_exists($this->session, 'sess_regenerate')) {
+            $this->session->sess_regenerate(TRUE);
+        }
+
+        $this->session->set_userdata([
+            'uuid' => $player_uuid,
+            'username' => $player_username,
+            'platform' => (strpos($player_username, '.') === 0) ? 'bedrock' : 'java',
+            'is_logged_in' => TRUE,
+            'affiliate_badge' => $affiliate_badge
+        ]);
+
+        return true;
+    }
+
+    private function _try_manual_invoice_auto_login() {
+        $invoice_login_token = trim((string) $this->input->get('invoice_login', TRUE));
+        $transaction_id = max(0, (int) $this->input->get('trx'));
+        if ($invoice_login_token === '' || $transaction_id <= 0) {
+            return false;
+        }
+
+        $transaction = $this->Transaction_model->get_transaction_by_id($transaction_id);
+        if (!$transaction) {
+            return false;
+        }
+
+        $cart = $this->_decode_cart($transaction['cart_data'] ?? '');
+        if (!$this->_is_manual_invoice_transaction($transaction, $cart)) {
+            return false;
+        }
+
+        $expected_token = $this->_build_manual_invoice_auto_login_token($transaction, $cart);
+        if ($expected_token === '' || !hash_equals($expected_token, $invoice_login_token)) {
+            return false;
+        }
+
+        $current_uuid = strtolower(str_replace('-', '', trim((string) $this->session->userdata('uuid'))));
+        $target_uuid = strtolower(str_replace('-', '', trim((string) ($transaction['player_uuid'] ?? ''))));
+
+        if ($current_uuid === '' || $current_uuid !== $target_uuid) {
+            if (!$this->_switch_session_to_transaction_player($transaction)) {
+                return false;
+            }
+        }
+
+        $this->manual_invoice_auto_login_redirect_url = $this->_build_clean_transaction_url_without_login_token();
+        return true;
     }
 
     private function _build_status_meta($status) {
@@ -314,6 +432,11 @@ class Transaction extends CI_Controller {
     }
 
     public function index() {
+        if ($this->manual_invoice_auto_login_redirect_url !== '') {
+            redirect($this->manual_invoice_auto_login_redirect_url);
+            return;
+        }
+
         if (!$this->session->userdata('is_logged_in')) {
             $this->_render_public_preview();
             return;
