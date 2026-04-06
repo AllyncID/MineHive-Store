@@ -1,0 +1,548 @@
+.lucky-spin-page {
+    margin: 0;
+    min-height: 100dvh;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    background:
+        radial-gradient(circle at top, rgba(233, 170, 66, 0.22), transparent 34%),
+        linear-gradient(160deg, #110b08 0%, #1c130d 45%, #29170d 100%);
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #7b5232 #1a110b;
+}
+
+.lucky-spin-page::-webkit-scrollbar {
+    width: 12px;
+}
+
+.lucky-spin-page::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, #1a110b 0%, #24170f 100%);
+}
+
+.lucky-spin-page::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #a56d41 0%, #7b5232 100%);
+    border: 2px solid rgba(24, 16, 10, 0.92);
+    border-radius: 999px;
+}
+
+.lucky-spin-shell {
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: clamp(18px, 4vw, 36px);
+    box-sizing: border-box;
+}
+
+.lucky-spin-card {
+    display: grid;
+    grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+    gap: 28px;
+    padding: clamp(22px, 4vw, 34px);
+    background: rgba(36, 24, 15, 0.94);
+    border: 1px solid rgba(240, 185, 74, 0.16);
+    border-radius: 28px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+}
+
+.lucky-spin-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #ffce46;
+    background: rgba(255, 196, 53, 0.12);
+}
+
+.lucky-spin-copy h1 {
+    margin: 18px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.06;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.lucky-spin-description {
+    margin: 18px 0 0;
+    max-width: 36rem;
+    color: #d8c7b6;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.lucky-spin-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.lucky-spin-stat {
+    padding: 16px 14px;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.lucky-spin-stat span {
+    display: block;
+    color: #ad9d8c;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.lucky-spin-stat strong {
+    display: block;
+    margin-top: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.lucky-spin-trigger {
+    width: 100%;
+    max-width: 360px;
+    margin-top: 24px;
+    padding: 16px 18px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #9f6438 0%, #7f4d2d 100%);
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.lucky-spin-trigger:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 18px 26px rgba(123, 82, 50, 0.22);
+}
+
+.lucky-spin-trigger.is-disabled,
+.lucky-spin-trigger:disabled {
+    opacity: 0.62;
+    cursor: not-allowed;
+}
+
+.lucky-spin-note {
+    margin-top: 16px;
+    color: #9c8f81;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.lucky-wheel-panel {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    gap: 22px;
+}
+
+.lucky-wheel-frame {
+    position: relative;
+    width: min(100%, 520px);
+    aspect-ratio: 1 / 1;
+    padding: 20px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(255, 218, 133, 0.16), rgba(255, 218, 133, 0) 58%),
+        linear-gradient(145deg, rgba(255, 221, 162, 0.16), rgba(109, 67, 31, 0.26));
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 211, 122, 0.15),
+        0 22px 44px rgba(0, 0, 0, 0.28);
+}
+
+.lucky-wheel-pointer {
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 0;
+    border-bottom: 34px solid #ffd47c;
+    filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.3));
+    z-index: 4;
+}
+
+.lucky-wheel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 12px solid rgba(72, 47, 28, 0.95);
+    box-shadow:
+        inset 0 0 0 8px rgba(255, 214, 144, 0.08),
+        0 18px 40px rgba(0, 0, 0, 0.22);
+    transform: rotate(0deg);
+    transition: transform 5.2s cubic-bezier(0.16, 1, 0.3, 1);
+    background: conic-gradient(from 0deg, #7b5232 0deg 360deg);
+}
+
+.lucky-wheel::before {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 239, 214, 0.12);
+    pointer-events: none;
+}
+
+.lucky-wheel-labels {
+    position: absolute;
+    inset: 0;
+}
+
+.lucky-wheel-segment-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 38%;
+    transform-origin: center center;
+    text-align: center;
+    color: #ffffff;
+    font-size: clamp(0.64rem, 1.2vw, 0.82rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    pointer-events: none;
+    white-space: normal;
+}
+
+.lucky-wheel-segment-label.is-zonk {
+    color: #ffe1e1;
+    text-shadow: 0 2px 12px rgba(96, 6, 20, 0.36);
+}
+
+.lucky-wheel-center {
+    position: absolute;
+    inset: 50%;
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at top, #ffdc93 0%, #d18c45 40%, #8d562f 100%);
+    color: #2b170c;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    box-shadow:
+        inset 0 3px 12px rgba(255, 255, 255, 0.22),
+        0 10px 30px rgba(0, 0, 0, 0.28);
+    z-index: 3;
+}
+
+.lucky-spin-result-card {
+    width: min(100%, 430px);
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: rgba(13, 10, 8, 0.26);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    text-align: center;
+}
+
+.lucky-spin-result-card span {
+    display: block;
+    color: #b8a895;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.lucky-spin-result-card strong {
+    display: block;
+    margin-top: 10px;
+    color: #fff4d7;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 800;
+}
+
+.lucky-spin-result-card small {
+    display: block;
+    margin-top: 8px;
+    color: #a5988a;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.lucky-spin-result-card.is-bucks {
+    border-color: rgba(240, 186, 90, 0.22);
+    background: rgba(71, 45, 22, 0.36);
+}
+
+.lucky-spin-result-card.is-product {
+    border-color: rgba(201, 140, 66, 0.24);
+    background: rgba(56, 36, 20, 0.34);
+}
+
+.lucky-spin-result-card.is-zonk {
+    border-color: rgba(212, 73, 90, 0.28);
+    background: rgba(76, 19, 28, 0.3);
+}
+
+.lucky-spin-result-card.is-zonk strong {
+    color: #ffd8db;
+}
+
+.lucky-spin-result-card.is-zonk small {
+    color: #f1b5bc;
+}
+
+.lucky-spin-modal-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.76);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.lucky-spin-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lucky-spin-modal {
+    position: relative;
+    width: min(100%, 540px);
+    padding: 28px 22px 22px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(43, 29, 19, 0.98), rgba(31, 22, 15, 0.98));
+    border: 1px solid rgba(255, 210, 122, 0.14);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
+    box-sizing: border-box;
+}
+
+.lucky-spin-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+}
+
+.lucky-spin-modal-header h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.lucky-spin-modal-header p {
+    margin: 10px 0 0;
+    color: #c8b8a6;
+    line-height: 1.6;
+}
+
+.lucky-spin-modal-body {
+    margin-top: 22px;
+}
+
+.lucky-spin-form-group {
+    margin-bottom: 18px;
+}
+
+.lucky-spin-form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: #dec8b1;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.lucky-spin-input {
+    width: 100%;
+    padding: 15px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    background: rgba(14, 10, 8, 0.4);
+    color: #fff;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.lucky-spin-input:focus {
+    outline: none;
+    border-color: rgba(255, 208, 118, 0.4);
+    box-shadow: 0 0 0 3px rgba(209, 140, 69, 0.18);
+}
+
+.lucky-spin-platform-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.lucky-spin-platform-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 58px;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #9f6438 0%, #7f4d2d 100%);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.lucky-spin-platform-btn i {
+    font-size: 1rem;
+}
+
+@media (max-width: 980px) {
+    .lucky-spin-card {
+        grid-template-columns: 1fr;
+    }
+
+    .lucky-spin-copy {
+        order: 2;
+    }
+
+    .lucky-wheel-panel {
+        order: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .lucky-spin-shell {
+        padding: 12px;
+    }
+
+    .lucky-spin-card {
+        padding: 18px;
+        border-radius: 22px;
+        gap: 22px;
+    }
+
+    .lucky-spin-copy h1 {
+        font-size: clamp(1.7rem, 8vw, 2.3rem);
+    }
+
+    .lucky-spin-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .lucky-spin-trigger {
+        max-width: none;
+    }
+
+    .lucky-wheel-frame {
+        width: 100%;
+        max-width: 380px;
+        padding: 14px;
+    }
+
+    .lucky-wheel {
+        border-width: 10px;
+    }
+
+    .lucky-wheel-center {
+        width: 88px;
+        height: 88px;
+        font-size: 0.88rem;
+    }
+
+    .lucky-wheel-segment-label {
+        width: 42%;
+        font-size: 0.62rem;
+    }
+
+    .lucky-spin-modal-overlay {
+        padding: 12px;
+        align-items: flex-end;
+    }
+
+    .lucky-spin-modal {
+        width: 100%;
+        border-radius: 20px;
+        padding: 24px 18px 18px;
+    }
+
+    .lucky-spin-platform-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 420px) {
+    .lucky-spin-shell {
+        padding: 10px;
+    }
+
+    .lucky-spin-card {
+        padding: 14px;
+        border-radius: 18px;
+        gap: 18px;
+    }
+
+    .lucky-spin-copy h1 {
+        font-size: clamp(1.5rem, 10vw, 2rem);
+    }
+
+    .lucky-spin-description {
+        font-size: 0.94rem;
+    }
+
+    .lucky-wheel-frame {
+        max-width: 320px;
+        padding: 10px;
+    }
+
+    .lucky-wheel {
+        border-width: 8px;
+    }
+
+    .lucky-wheel-center {
+        width: 74px;
+        height: 74px;
+        font-size: 0.78rem;
+    }
+
+    .lucky-wheel-segment-label {
+        width: 44%;
+        font-size: 0.56rem;
+        line-height: 1.15;
+    }
+
+    .lucky-spin-result-card {
+        padding: 16px 14px;
+    }
+
+    .lucky-spin-modal {
+        padding: 22px 14px 16px;
+    }
+
+    .lucky-spin-platform-btn {
+        min-height: 54px;
+        font-size: 0.92rem;
+    }
+}

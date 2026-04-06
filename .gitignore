@@ -1,0 +1,30 @@
+# Log files
+error_log
+webhook_debug_log_log.txt
+webhook_debug_log.txt
+
+# Cache directories
+application/cache/
+
+# Application logs
+application/logs/
+
+# Sensitive configuration files
+application/config/database.php
+application/config/midtrans.php
+application/config/xendit.php
+
+# Vendor dependencies
+vendor/
+
+# Test and temporary files
+test_db.php
+test_discord.php
+test_transaksi.php
+test.php
+tes_webhook.php
+buat_admin.php
+generateaffiliate.php
+
+# Composer lock file (optional, but often ignored)
+composer.lock

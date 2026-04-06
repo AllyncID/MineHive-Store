@@ -1,0 +1,421 @@
+body.bucks-kaget-modal-open {
+    overflow: hidden;
+}
+
+#bucksKagetClaimPopup,
+#bucksKagetClaimPopup .login-popup-container {
+    scrollbar-width: thin;
+    scrollbar-color: #7a5334 #1a120c;
+}
+
+#bucksKagetClaimPopup::-webkit-scrollbar,
+#bucksKagetClaimPopup .login-popup-container::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+#bucksKagetClaimPopup::-webkit-scrollbar-track,
+#bucksKagetClaimPopup .login-popup-container::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, #1a120c 0%, #24170f 100%);
+    border-radius: 999px;
+}
+
+#bucksKagetClaimPopup::-webkit-scrollbar-thumb,
+#bucksKagetClaimPopup .login-popup-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #91603b 0%, #70492e 100%);
+    border: 2px solid rgba(22, 14, 9, 0.95);
+    border-radius: 999px;
+}
+
+.bucks-kaget-page-view {
+    padding: 26px 0 64px;
+    box-sizing: border-box;
+    overflow-x: clip;
+}
+
+.bucks-kaget-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.bucks-kaget-page-header {
+    display: grid;
+    grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.bucks-kaget-page-title {
+    justify-self: center;
+    min-width: 0;
+}
+
+.bucks-kaget-page-header > .btn {
+    justify-self: flex-start;
+}
+
+.bucks-kaget-page-title h1 {
+    margin: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Rubik One', sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.bucks-kaget-header-stats {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    justify-self: flex-end;
+    min-width: 170px;
+}
+
+.bucks-kaget-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    border: 1px solid #4f3c23;
+    border-radius: 5px;
+    color: #f6dfbf;
+    background-color: #2b1d0e;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.bucks-kaget-status-badge.status-active {
+    color: #90efaf;
+    border-color: rgba(60, 198, 107, 0.35);
+    background-color: rgba(60, 198, 107, 0.12);
+}
+
+.bucks-kaget-status-badge.status-expired,
+.bucks-kaget-status-badge.status-finished,
+.bucks-kaget-status-badge.status-inactive {
+    color: #ffb5b0;
+    border-color: rgba(222, 93, 86, 0.35);
+    background-color: rgba(222, 93, 86, 0.12);
+}
+
+.bucks-kaget-stat {
+    background-color: #1B160D;
+    border: 1px solid #2f2417;
+    border-radius: 5px;
+}
+
+.bucks-kaget-label,
+.bucks-kaget-stat span {
+    display: block;
+    color: #b87841;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.bucks-kaget-card {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: clamp(22px, 4vw, 30px);
+    border-radius: 5px;
+    background-color: #20180e;
+    border: 1px solid #2f2417;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
+.bucks-kaget-card p,
+.bucks-kaget-card .bucks-kaget-note {
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
+}
+
+.bucks-kaget-label {
+    margin-bottom: 12px;
+}
+
+.bucks-kaget-card h2 {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Rubik One', sans-serif;
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+
+.bucks-kaget-description,
+.bucks-kaget-helper-text,
+.bucks-kaget-note {
+    color: #b9aa9b;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+.bucks-kaget-description {
+    margin: 14px 0 0;
+}
+
+.bucks-kaget-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.bucks-kaget-stat {
+    padding: 16px 18px;
+}
+
+.bucks-kaget-stat span {
+    margin-bottom: 10px;
+}
+
+.bucks-kaget-stat strong {
+    display: block;
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.bucks-kaget-helper-text {
+    margin: 18px 0 0;
+}
+
+.bucks-kaget-helper-text strong {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+}
+
+.bucks-kaget-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bucks-kaget-actions {
+    margin-top: 16px;
+}
+
+.bucks-kaget-trigger,
+.bucks-kaget-trigger-alt {
+    min-width: 0;
+}
+
+.bucks-kaget-actions .btn {
+    flex: 1 1 220px;
+}
+
+.bucks-kaget-note {
+    margin-top: 16px;
+}
+
+.bucks-kaget-note span {
+    display: block;
+}
+
+#bucksKagetClaimPopup {
+    padding: clamp(16px, 4vw, 24px);
+    box-sizing: border-box;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    padding: 30px 40px;
+    border-radius: 5px;
+    background-color: #1B160D;
+    border: none;
+}
+
+#bucksKagetClaimPopup .popup-close {
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    line-height: 38px;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .login-popup-header {
+    padding: 30px 40px;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .login-popup-header .popup-title {
+    font-size: 2.2rem;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .login-popup-header .popup-subtitle {
+    margin: 5px 0 24px;
+    text-transform: none;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .popup-body .form-group {
+    margin-bottom: 18px;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .username-input-container {
+    align-items: stretch;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .form-control-custom,
+#bucksKagetUsernameInput {
+    width: 100%;
+    min-width: 0;
+    margin-top: 0;
+}
+
+#bucksKagetAvatarPreview {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 0;
+    border-radius: 5px;
+    background-color: #1B160D;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+#bucksKagetUsernameInput {
+    height: 52px;
+    padding: 0 20px;
+    background-color: #241A0F;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .platform-buttons-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+#bucksKagetClaimPopup .bucks-kaget-claim-popup-container .platform-btn {
+    min-height: 0;
+    margin-bottom: 48px;
+    padding: 20px 15px;
+    border-radius: 5px;
+}
+
+@media (max-width: 992px) {
+    .bucks-kaget-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .bucks-kaget-page-header {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+        justify-items: center;
+        gap: 16px;
+    }
+
+    .bucks-kaget-page-header > .btn {
+        width: auto;
+        justify-content: center;
+        align-self: center;
+        justify-self: center;
+        padding: 10px 18px;
+    }
+
+    .bucks-kaget-page-title,
+    .bucks-kaget-page-title h1 {
+        width: 100%;
+        text-align: center;
+    }
+
+    .bucks-kaget-header-stats {
+        justify-content: center;
+        justify-self: center;
+    }
+
+    .bucks-kaget-header-stats {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .bucks-kaget-status-badge {
+        min-width: min(100%, 170px);
+    }
+
+    .bucks-kaget-shell {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 640px) {
+    .bucks-kaget-page-view {
+        padding: 12px 0 40px;
+    }
+
+    .bucks-kaget-shell {
+        padding: 0 12px;
+    }
+
+    .bucks-kaget-card {
+        padding: 24px 14px;
+    }
+
+    .bucks-kaget-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .bucks-kaget-actions .btn,
+    #bucksKagetClaimPopup .bucks-kaget-claim-popup-container .platform-buttons-container {
+        width: 100%;
+    }
+
+    #bucksKagetClaimPopup {
+        align-items: flex-end;
+        padding: 12px;
+    }
+
+    #bucksKagetClaimPopup .bucks-kaget-claim-popup-container {
+        width: 100%;
+        max-width: none;
+        padding: 30px 24px 20px;
+    }
+
+    #bucksKagetClaimPopup .popup-close {
+        top: 10px;
+        right: 12px;
+    }
+
+    #bucksKagetClaimPopup .bucks-kaget-claim-popup-container .username-input-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    #bucksKagetAvatarPreview {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto;
+    }
+
+    #bucksKagetClaimPopup .bucks-kaget-claim-popup-container .platform-buttons-container {
+        grid-template-columns: 1fr;
+    }
+}

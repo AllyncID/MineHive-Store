@@ -1,0 +1,1235 @@
+/* --- Fondasi & Latar Belakang Halaman --- */
+body.affiliate-login-page {
+    /* Gunakan flexbox untuk menempatkan container login di tengah layar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Tinggi minimal seukuran layar */
+    
+    /* Latar belakang yang sama dengan halaman utama */
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- Wadah Utama Form Login --- */
+.login-container {
+    width: 100%;
+    max-width: 420px; /* Lebar yang ideal untuk form login */
+    padding: 40px 48px;
+    background-color: rgba(41, 30, 18, 0.85); /* Warna coklat gelap semi-transparan */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 5px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Header di Dalam Form --- */
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header .fa-users {
+    font-size: 3rem;
+    color: #D37F3A; /* Warna aksen oranye */
+}
+
+.login-header h2 {
+    margin: 15px 0 5px 0;
+    color: #FFFFFF;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.login-header p {
+    margin: 0;
+    color: #A0A0A0; /* Warna teks sekunder */
+    font-size: 1rem;
+}
+
+/* --- Styling Form (Label, Input, Ikon) --- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #A0A0A0;
+}
+
+.input-wrapper {
+    position: relative; /* Diperlukan untuk menempatkan ikon */
+}
+
+/* Penempatan Ikon di dalam Input */
+.input-wrapper i.fas {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* Styling Input Field */
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 20px 14px 50px; /* Beri ruang di kiri untuk ikon */
+    background-color: #1B160D; /* Warna background lebih gelap */
+    border: 1px solid #4B3420;
+    border-radius: 5px;
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box; /* WAJIB untuk kalkulasi padding */
+    transition: border-color 0.3s ease;
+}
+
+.input-wrapper input::placeholder {
+    color: #666;
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color:rgb(88, 56, 28); /* Border berubah warna saat aktif */
+}
+
+/* --- Tombol Login --- */
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4B3420;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-login:hover {
+    background-color:rgb(27, 19, 12); /* Warna sedikit lebih terang saat hover */
+    transform: translateY(-2px);
+}
+
+/* --- Pesan Error --- */
+.error-message {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid #EF4444;
+    color: #F87171;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+/* --- Variabel & Font (Disesuaikan dengan tema utama) --- */
+:root {
+    --bg-main: #1B160D;
+    --bg-card: #291E12;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A0A0A0;
+    --accent-orange: #764E39;
+    --border-color: #4B3420;
+    --color-green:rgb(21, 199, 33);
+    --color-red: #DB4845;
+}
+
+/* --- Global Styles --- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif; /* Menggunakan font utama situs */
+    background-color: var(--bg-main);
+    color: var(--text-secondary);
+}
+
+.affiliate-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* --- Header --- */
+.affiliate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-left img {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+}
+
+.header-left span {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.header-left span strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.btn-logout-affiliate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+.btn-logout-affiliate:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+
+/* --- Main Content --- */
+.affiliate-main {
+    display: grid;
+    gap: 30px;
+}
+
+/* --- Kartu Saldo --- */
+.balance-card {
+    background-color: #4B3420; /* Gradient oranye cerah */
+    color: white;
+    padding: 30px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.balance-title {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.balance-amount {
+    display: block;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin: 5px 0;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.balance-subtitle {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* --- Tombol Aksi --- */
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.action-btn {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.action-btn i {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.action-btn span {
+    font-size: 0.95rem;
+}
+
+.action-btn:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-orange);
+}
+
+.action-btn:hover i {
+    color: var(--accent-orange);
+}
+
+.action-btn.primary {
+    background-color: #4B3420;
+    color: white;
+    border-color: var(--accent-orange);
+}
+.action-btn.primary:hover {
+    background-color:rgb(43, 28, 16);
+    border-color: #764E39;
+}
+
+.action-btn.primary i {
+    color: rgba(255, 255, 255, 0.8);
+}
+.action-btn.primary:hover i {
+    color: white;
+}
+
+.action-btn[disabled] {
+    background-color: #2F2A22;
+    color: #6c6c6c;
+    border-color: #4B3420;
+    pointer-events: none;
+    opacity: 0.5;
+}
+.action-btn[disabled] i {
+    color: #6c6c6c;
+}
+
+
+/* --- Aktivitas Terbaru --- */
+.activity-section {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.activity-section h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.activity-item:first-of-type {
+    padding-top: 0;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.activity-icon.green {
+    background-color: rgba(4, 164, 15, 0.1);
+    color: var(--color-green);
+}
+.activity-icon.red {
+    background-color: rgba(219, 72, 69, 0.1);
+    color: var(--color-red);
+}
+
+.activity-details {
+    flex-grow: 1;
+    line-height: 1.5;
+}
+
+.activity-details span {
+    display: block;
+    font-size: 0.95rem;
+}
+.activity-details span strong {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.activity-amount {
+    font-weight: 600;
+}
+.activity-amount.green {
+    color: var(--color-green);
+}
+.activity-amount.red {
+    color: var(--color-red);
+}
+
+.activity-time {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+    padding-left: 15px;
+    white-space: nowrap;
+}
+
+/* --- Tampilan Mobile --- */
+@media (max-width: 768px) {
+    .affiliate-wrapper {
+        margin: 0;
+        padding: 0;
+    }
+    .affiliate-header {
+        padding: 15px;
+        margin: 0;
+        border-radius: 0;
+        background-color: var(--bg-card);
+    }
+    .affiliate-main {
+        padding: 20px 15px;
+        gap: 25px;
+    }
+    .action-buttons {
+        grid-template-columns: 1fr 1fr; /* 2 kolom di tablet */
+    }
+    .activity-time {
+        display: none; /* Sembunyikan waktu di layar sempit */
+    }
+}
+
+@media (max-width: 480px) {
+    .action-buttons {
+        grid-template-columns: 1fr; /* 1 kolom di ponsel */
+    }
+    .balance-amount {
+        font-size: 2.2rem;
+    }
+}
+
+
+/* STTINGS VIEW */
+
+/* ======================================================= */
+/* === STYLING HALAMAN PENGATURAN (SETTINGS VIEW)        === */
+/* ======================================================= */
+
+/* --- Header Halaman --- */
+.affiliate-header-page {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.affiliate-header-page h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    flex-grow: 1; /* Biarkan judul mengisi ruang */
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+
+/* --- Kartu Konten Umum --- */
+.content-card {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.content-card h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+}
+
+.content-card .empty-state {
+    text-align: center;
+    padding: 20px 0;
+    color: var(--text-secondary);
+}
+
+
+/* --- Daftar Metode Pembayaran Tersimpan --- */
+.payout-method-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.payout-methods-list .payout-method-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.payout-method-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    display: grid;
+    place-items: center;
+    background-color: rgba(211, 127, 58, 0.1);
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.payout-method-details {
+    flex-grow: 1;
+    line-height: 1.5;
+}
+.payout-method-details strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    display: block;
+}
+.payout-method-details span {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.btn-delete-method {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+}
+.btn-delete-method:hover {
+    color: var(--color-red);
+    background-color: rgba(219, 72, 69, 0.1);
+}
+
+/* --- Form Tambah Metode Baru --- */
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Style umum untuk input & select */
+.content-card select,
+.content-card input[type="text"] {
+    width: 100%;
+    padding: 14px 20px;
+    background-color: var(--bg-main); /* Warna background lebih gelap */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.content-card select:focus,
+.content-card input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-orange);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.form-actions {
+    text-align: right; /* Tombol rata kanan */
+    margin-top: 30px;
+}
+
+button {
+        font-family: 'Poppins', sans-serif; /* <-- TAMBAHKAN BARIS INI */
+
+}
+
+.btn-submit {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4B3420;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Poppins', sans-serif; /* <-- TAMBAHKAN BARIS INI */
+}
+.btn-submit:hover {
+    background-color:rgb(97, 64, 36);
+}
+
+/* Penyesuaian Mobile */
+@media (max-width: 768px) {
+    .affiliate-header-page h1 {
+        font-size: 1.2rem;
+    }
+    .content-card {
+        padding: 20px;
+    }
+}
+
+/* ======================================================= */
+/* === STYLING HALAMAN PENARIKAN DANA (WITHDRAWALS)    === */
+/* ======================================================= */
+
+/* --- Kotak Info Saldo --- */
+.info-box {
+    background-color: var(--bg-card);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--accent-orange);
+}
+
+.info-box p {
+    margin: 5px 0;
+    color: var(--text-secondary);
+}
+
+.info-box p strong {
+    font-weight: 600;
+}
+.info-box .green-text {
+    color: var(--color-green);
+}
+.info-box .yellow-text {
+    color: #ECCA01; /* Warna kuning dari style sebelumnya */
+}
+
+/* --- Form Penarikan Dana --- */
+
+/* Input dengan Prefix "Rp" */
+.input-wrapper.with-prefix {
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper.with-prefix span {
+    padding: 14px 15px;
+    background-color: #1B160D;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.input-wrapper.with-prefix input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-left: 16px;
+}
+
+/* Hilangkan panah atas/bawah pada input number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+/* --- Pilihan Metode Pembayaran (Radio Button Kustom) --- */
+.radio-group {
+    display: grid;
+    gap: 15px;
+}
+
+.radio-option input[type="radio"] {
+    display: none; /* Sembunyikan radio button asli */
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payout-method-icon-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+/* Style saat radio button dipilih */
+.radio-option input[type="radio"]:checked + .radio-label {
+    border-color: var(--accent-orange);
+    background-color: rgba(211, 127, 58, 0.1);
+}
+
+.radio-option input[type="radio"]:checked + .radio-label .payout-method-icon-small {
+    background-color: var(--accent-orange);
+    color: white;
+}
+
+/* Tombol Submit Full-Width */
+.btn-submit.full-width {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Pesan Peringatan jika belum ada metode */
+.warning-message {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 185, 59, 0.05);
+    border: 1px solid var(--accent-orange);
+    border-radius: 5px;
+    color: var(--text-secondary);
+}
+
+.warning-message a {
+    color: var(--accent-orange);
+    font-weight: 600;
+    text-decoration: none;
+}
+.warning-message a:hover {
+    text-decoration: underline;
+}
+
+/* --- Penyesuaian Mobile --- */
+@media (max-width: 768px) {
+    .input-wrapper.with-prefix span {
+        padding: 14px 12px;
+    }
+}
+
+/* Membuat kotak popup-nya sendiri menjadi tidak terlihat */
+.swal2-popup.custom-loading-popup {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Mengubah warna spinner/loader menjadi coklat (warna aksen Anda) */
+.swal2-loader.custom-loading-loader {
+    width: 60px; /* Ukuran loader */
+    height: 60px; /* Ukuran loader */
+    border-width: 6px; /* Ketebalan garis loader */
+    border-color: #D37F3A transparent #D37F3A transparent !important;
+}
+
+/* Mengatur warna teks judul */
+.swal2-title.custom-loading-title {
+    color: #FFFFFF !important;
+    font-size: 1.3rem;
+}
+
+/* Mengatur warna teks deskripsi */
+.swal2-html-container.custom-loading-text {
+    color: #DDDDDD !important;
+    font-size: 1rem;
+}
+
+/* Wadah utama popup */
+.swal2-popup.custom-success-popup {
+    background: #291E12 !important; /* Warna background dari style Anda */
+    border-radius: 5px !important;
+}
+
+/* Mengatur warna teks judul */
+.swal2-title.custom-success-title {
+    color: #FFFFFF !important;
+}
+
+/* Mengatur warna teks deskripsi */
+.swal2-html-container.custom-success-text {
+    color: #DDDDDD !important;
+}
+
+/* Kustomisasi Ikon Centang (Bagian Paling Penting) */
+.swal2-icon.custom-success-icon {
+    border-color: #D37F3A !important; /* Warna lingkaran luar */
+    color: #D37F3A !important; /* Warna untuk garis centang */
+    width: 80px !important;
+    height: 80px !important;
+    margin: 25px auto !important;
+}
+
+/* Mengubah warna garis centang animasi */
+.swal2-icon.custom-success-icon .swal2-success-line-tip,
+.swal2-icon.custom-success-icon .swal2-success-line-long {
+    background-color: #D37F3A !important;
+}
+
+/* Mengubah warna lingkaran animasi */
+.swal2-icon.custom-success-icon .swal2-success-ring {
+    border-color: rgba(211, 127, 58, 0.3) !important;
+}
+
+/* ======================================================= */
+/* KUSTOMISASI POPUP NOTIFIKASI FLASHDATA (SUCCESS, ERROR, INFO) */
+/* ======================================================= */
+
+/* -- Styling Umum untuk Semua Notifikasi -- */
+.custom-success-popup,
+.custom-error-popup,
+.custom-info-popup {
+    background: #291E12 !important;
+    border-radius: 5px !important;
+    border: 1px solid #4B3420 !important;
+    box-shadow: none !important; /* TIDAK MENGGUNAKAN BOX SHADOW */
+}
+
+.custom-success-title,
+.custom-error-title,
+.custom-info-title {
+    color: #FFFFFF !important;
+}
+
+.custom-success-text,
+.custom-error-text,
+.custom-info-text {
+    color: #DDDDDD !important;
+}
+
+
+/* -- Styling Spesifik untuk Notifikasi SUCCESS -- */
+.swal2-icon.custom-success-icon {
+    border-color: #04A40F !important; /* Warna hijau sukses */
+    color: #04A40F !important;
+}
+.custom-success-icon .swal2-success-line-tip,
+.custom-success-icon .swal2-success-line-long {
+    background-color: #04A40F !important;
+}
+.custom-success-icon .swal2-success-ring {
+    border-color: rgba(4, 164, 15, 0.3) !important;
+}
+
+
+/* -- Styling Spesifik untuk Notifikasi ERROR -- */
+.swal2-icon.custom-error-icon {
+    border-color: #D33 !important; /* Warna merah error */
+    color: #D33 !important;
+}
+.custom-error-icon .swal2-x-mark-line-left,
+.custom-error-icon .swal2-x-mark-line-right {
+    background-color: #D33 !important;
+}
+
+
+/* -- Styling Spesifik untuk Notifikasi INFO -- */
+.swal2-icon.custom-info-icon {
+    border-color: #3AB0E5 !important; /* Warna biru info */
+    color: #3AB0E5 !important;
+}
+
+
+/* ======================================================= */
+/* === STYLING HALAMAN RIWAYAT (HISTORY VIEW)            === */
+/* ======================================================= */
+
+/* --- Tabel Riwayat --- */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto; /* Memastikan tabel bisa di-scroll di layar kecil */
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th, .history-table td {
+    padding: 15px;
+    text-align: left;
+}
+
+.history-table thead {
+    border-bottom: 2px solid var(--border-color);
+}
+
+.history-table th {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+.history-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.history-table td {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+/* --- Styling Jumlah & Status --- */
+.amount-positive {
+    color: var(--color-green);
+    font-weight: 600;
+}
+.amount-negative {
+    color: var(--color-red);
+    font-weight: 600;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px; /* Membuat bentuk pil */
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.status-commission {
+    background-color: rgba(4, 164, 15, 0.1);
+    color: var(--color-green);
+}
+
+.status-badge.status-withdrawal {
+    background-color: rgba(219, 72, 69, 0.1);
+    color: var(--color-red);
+}
+
+
+/* --- Penyesuaian Mobile untuk Tabel --- */
+@media (max-width: 768px) {
+    .history-table thead {
+        display: none; /* Sembunyikan header tabel */
+    }
+    .history-table tr {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--border-color);
+    }
+    .history-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right !important; /* Teks konten rata kanan */
+        padding: 10px 0;
+        border-bottom: 1px dashed #3a2a1a;
+    }
+    .history-table tr:last-child {
+        margin-bottom: 0;
+    }
+    .history-table td:last-child {
+        border-bottom: none;
+    }
+
+    /* Tambahkan label di kiri */
+    .history-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-align: left;
+        color: var(--text-secondary);
+        margin-right: 15px;
+    }
+}
+
+/* ======================================================= */
+/* === Penyesuaian Halaman Pengaturan (Mobile)         === */
+/* ======================================================= */
+
+@media (max-width: 768px) {
+
+    .login-header h2{
+        font-size: 1.7rem;
+    }
+
+
+    /* Atur ulang header halaman agar lebih ringkas */
+    .affiliate-header-page {
+        padding-bottom: 15px;
+        margin-top: 24px;
+        padding: 0 24px;
+        margin-bottom: 24px;
+        gap: 15px;
+    }
+
+    .affiliate-header-page h1 {
+        font-size: 1.3rem;
+    }
+
+    /* Kurangi padding pada kartu konten */
+    .content-card {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .content-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    /* Atur ulang item metode pembayaran */
+    .payout-method-item {
+        gap: 12px;
+    }
+
+    .payout-method-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .payout-method-details strong {
+        font-size: 0.95rem;
+    }
+
+    .payout-method-details span {
+        font-size: 0.85rem;
+        word-break: break-all; /* Mencegah teks panjang (seperti no. rek) menyebabkan overflow */
+    }
+
+    .btn-delete-method {
+        padding: 8px;
+    }
+    
+    /* Atur ulang form tambah metode */
+    .content-card select,
+    .content-card input[type="text"] {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+/* --- Wadah Utama Form Login --- */
+    .affiliate-login-page {
+        padding: 0px 24px;
+    }
+}
+
+.aff-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    margin-left: 8px;
+    text-transform: uppercase;
+    position: relative;
+    top: -1px; /* Sedikit penyesuaian posisi vertikal */
+}
+.aff-badge.badge-bronze {
+    color: #fff;
+    background-color: #cd7f32; /* Warna Perunggu */
+}
+.aff-badge.badge-gold {
+    color: #212529; /* Warna teks gelap agar kontras */
+    background-color: #ffd700; /* Warna Emas */
+}
+.aff-badge.badge-platinum {
+    color: #212529; /* Warna teks gelap */
+    background-color: #e5e4e2; /* Warna Platinum */
+    border: 1px solid #c0c0c0; /* Border silver */
+}
+
+/* ======================================================= */
+/* === STYLING KARTU MISI (UPDATE 2 GOAL)              === */
+/* ======================================================= */
+
+.mission-card {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mission-card h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.mission-status {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-left, .status-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.status-title {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.status-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.status-value.badge-bronze { color: #cd7f32; }
+.status-value.badge-gold { color: #ffd700; }
+.status-value.badge-platinum { color: #e5e4e2; }
+
+.status-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.mission-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Memberi jarak antar 2 progress bar block */
+}
+
+/* Wrapper baru untuk tiap progress bar */
+.progress-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.progress-header strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 12px;
+    background-color: var(--bg-main);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--accent-orange);
+    border-radius: 6px;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-footer {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-align: center;
+    opacity: 0.7;
+    margin-top: 5px; /* Sedikit jarak dari progress bar terakhir */
+}
+.progress-footer strong {
+    color: var(--text-primary);
+}
+
+.mission-progress-max {
+    text-align: center;
+    padding: 20px 0 10px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffd700; /* Warna Emas */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.mission-progress-max .fa-crown {
+    font-size: 2rem;
+}
+
+@media (max-width: 480px) {
+    .mission-status {
+        flex-direction: column;
+    }
+    .status-value {
+        font-size: 1.3rem;
+    }
+}
+
